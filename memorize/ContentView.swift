@@ -16,7 +16,7 @@ struct ContentView: View {
         VStack {
             HStack{
                 Spacer()
-                Text("Memorize!").font(.largeTitle)
+                Text("Hello Adrii").font(.largeTitle)
                 Spacer()
             }
             ScrollView {
