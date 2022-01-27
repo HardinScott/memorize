@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var emojis = [["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"]
-    ,["🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐"]
+    ,["🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻"]
     ,["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨"]]
     @State var emojiCount = 0
     var body: some View {
@@ -42,25 +42,36 @@ struct ContentView: View {
 
 }
 var faces: some View {
-    Button{
-        emojis[0].shuffle()
-        emojiCount = 0
-    } label: {Image(systemName: "face.smiling")}
+    VStack {
+        Button {
+            emojis[0].shuffle()
+            emojiCount = 0
+        } label: {
+            Image(systemName: "face.smiling")
+        }
+        Text("Faces").font(.system(size: 10))
+    }
 }
     var cars: some View {
-        Button {
-            emojis[1].shuffle()
-            emojiCount = 1
-        } label: {
-            Image(systemName: "car.circle")
+        VStack {
+            Button {
+                emojis[1].shuffle()
+                emojiCount = 1
+            } label: {
+                Image(systemName: "car.circle")
+            }
+            Text("Cars").font(.system(size: 10))
         }
     }
     var animals: some View{
-        Button{
-            emojis[2].shuffle()
-            emojiCount = 2
-        } label: {
-            Image(systemName: "pawprint.circle")
+        VStack {
+            Button {
+                emojis[2].shuffle()
+                emojiCount = 2
+            } label: {
+                Image(systemName: "pawprint.circle")
+            }
+            Text("Animals").font(.system(size: 10))
         }
     }
 }
