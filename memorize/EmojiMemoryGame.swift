@@ -5,12 +5,12 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject{
-    static let emojis = ["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"
+    static var emojis = ["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"
                   ,"🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻"
                   ,"🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨"]
 
     static func createMemoryGame() -> MemoryGame<String>{
-        MemoryGame<String>(numberOfPairsOfCards: 4, createCardContent: { index in
+        MemoryGame<String>(numberOfPairsOfCards: Int.random(in: emojis.count/4..<emojis.count/2), createCardContent: { index in
             emojis[index]
         })
     }
@@ -23,5 +23,13 @@ class EmojiMemoryGame: ObservableObject{
 
     func choose(_ card: MemoryGame<String>.Card){
         model.choose(card)
+    }
+
+    func newGame(){
+        model = EmojiMemoryGame.createMemoryGame()
+    }
+
+    func getScore() -> Int{
+        model.getScore()
     }
 }

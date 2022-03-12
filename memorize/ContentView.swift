@@ -13,7 +13,11 @@ struct ContentView: View {
         VStack {
             HStack{
                 Spacer()
-                Text("Hello Adrii").font(.largeTitle)
+                HStack {
+                    Button("New Game", action: viewModel.newGame)
+                    Text("Hello Adrii").font(.largeTitle)
+                    Text("Score: \(viewModel.getScore())")
+                }
                 Spacer()
             }
             ScrollView {

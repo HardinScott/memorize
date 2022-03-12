@@ -7,17 +7,18 @@ import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable{
     private(set) var cards: Array<Card>
-
+    private var score: Int
     private var indexOfFaceUpCard: Int?
 
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent){
         cards = Array<Card>()
-
+        score = 0
         for i in 0..<numberOfPairsOfCards{
             let content: CardContent = createCardContent(i)
             cards.append(Card(id: i*2, content: content))
             cards.append(Card(id: i*2+1, content: content))
         }
+        cards.shuffle()
     }
 
     mutating func choose(_ card: Card) {
@@ -28,6 +29,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                     if cards[chosenIndex].content == cards[potentialMatch].content{
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatch].isMatched = true
+                        addScore(amount: 2)
+                    } else{
+                        reduceScore(amount: 1)
                     }
                     indexOfFaceUpCard = nil
                 } else{
@@ -35,9 +39,22 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                         cards[index].isFaceUp = false
                     }
                     indexOfFaceUpCard = chosenIndex
+
                 }
                 cards[chosenIndex].isFaceUp.toggle()
         }
+    }
+
+    func getScore() -> Int {
+        score
+    }
+
+    mutating func addScore(amount: Int){
+        score += amount
+    }
+
+    mutating func reduceScore(amount: Int){
+        score -= amount
     }
 
     struct Card: Identifiable{
