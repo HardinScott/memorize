@@ -9,10 +9,12 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
     private(set) var cards: Array<Card>
     private var score: Int
     private var indexOfFaceUpCard: Int?
+    private var seenCards: [Int]
 
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent){
         cards = Array<Card>()
         score = 0
+        seenCards = [Int]()
         for i in 0..<numberOfPairsOfCards{
             let content: CardContent = createCardContent(i)
             cards.append(Card(id: i*2, content: content))
@@ -31,7 +33,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                         cards[potentialMatch].isMatched = true
                         addScore(amount: 2)
                     } else{
-                        reduceScore(amount: 1)
+                        if beenSeen(cards[chosenIndex]) {
+                            reduceScore(amount: 1)
+                        }
                     }
                     indexOfFaceUpCard = nil
                 } else{
@@ -55,6 +59,15 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
 
     mutating func reduceScore(amount: Int){
         score -= amount
+    }
+
+    mutating func beenSeen(_ card: Card) -> Bool{
+        if seenCards.contains(card.id){
+            return true
+        } else{
+            seenCards.append(card.id)
+            return false
+        }
     }
 
     struct Card: Identifiable{
