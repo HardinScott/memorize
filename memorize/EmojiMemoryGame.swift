@@ -23,7 +23,7 @@ class EmojiMemoryGame: ObservableObject{
     ]
 
     static func createMemoryGame() -> MemoryGame<String>{
-        if var array = EmojiMemoryGame.themes.allCases.randomElement() {
+        if let array = EmojiMemoryGame.themes.allCases.randomElement() {
             var emojis = emojiMap[array]!
             emojis.shuffle()
             return MemoryGame<String>(numberOfPairsOfCards: Int.random(in: emojis.count / 2..<emojis.count), createCardContent: { index in
