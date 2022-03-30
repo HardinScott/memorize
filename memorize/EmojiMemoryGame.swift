@@ -14,6 +14,7 @@ class EmojiMemoryGame: ObservableObject{
         case animals
         case fruit
     }
+    private static var themeName = "Faces"
 
     static var emojiMap = [
         EmojiMemoryGame.themes.faces: ["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"],
@@ -25,6 +26,21 @@ class EmojiMemoryGame: ObservableObject{
     static func createMemoryGame() -> MemoryGame<String>{
         if let array = EmojiMemoryGame.themes.allCases.randomElement() {
             var emojis = emojiMap[array]!
+            switch array{
+                case EmojiMemoryGame.themes.faces:
+                    themeName = "Faces"
+                    break
+            case EmojiMemoryGame.themes.cars:
+                themeName = "Cars"
+                break
+
+            case EmojiMemoryGame.themes.animals:
+                themeName = "Animals"
+                break
+            case EmojiMemoryGame.themes.fruit:
+                themeName = "Fruit"
+                break
+            }
             emojis.shuffle()
             return MemoryGame<String>(numberOfPairsOfCards: Int.random(in: emojis.count / 2..<emojis.count), createCardContent: { index in
                 emojis[index]
@@ -50,6 +66,10 @@ class EmojiMemoryGame: ObservableObject{
 
     func newGame(){
         model = EmojiMemoryGame.createMemoryGame()
+    }
+
+    func getThemeName() -> String{
+        return EmojiMemoryGame.themeName
     }
 
     func getScore() -> Int{

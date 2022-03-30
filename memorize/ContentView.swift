@@ -15,7 +15,10 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Button("New Game", action: viewModel.newGame)
-                    Text("Hello Adrii").font(.largeTitle)
+                    VStack {
+                        Text("Hello Adrii").font(.largeTitle)
+                        Text(viewModel.getThemeName()).font(.largeTitle)
+                    }
                     Text("Score: \(viewModel.getScore())")
                 }
                 Spacer()
