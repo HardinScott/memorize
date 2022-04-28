@@ -76,4 +76,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
         var isMatched: Bool = false
         var content: CardContent
     }
+
+    struct Theme: Identifiable {
+        var id: Int
+        var themeName: String
+        var themeColor: [Double]
+        var themeContent: [CardContent]
+    }
 }

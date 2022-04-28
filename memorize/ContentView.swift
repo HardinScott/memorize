@@ -34,7 +34,7 @@ struct ContentView: View {
                     }
                 }
             }
-                    .foregroundColor(.red)
+                    .foregroundColor(Color(UIColor(displayP3Red: viewModel.getThemeColor()[0], green: viewModel.getThemeColor()[1], blue: viewModel.getThemeColor()[2], alpha: viewModel.getThemeColor()[3])))
         }
                 .padding(.horizontal)
 

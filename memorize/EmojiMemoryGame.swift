@@ -5,53 +5,26 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject{
-//    static var emojis = ["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"
-//                  ,"🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻"
-//                  ,"🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨"]
-    enum themes: CaseIterable{
-        case faces
-        case cars
-        case animals
-        case fruit
-    }
-    private static var themeName = "Faces"
-
-    static var emojiMap = [
-        EmojiMemoryGame.themes.faces: ["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"],
-        EmojiMemoryGame.themes.cars: ["🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻"],
-        EmojiMemoryGame.themes.animals: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨"],
-        EmojiMemoryGame.themes.fruit: ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐"]
+    private static var themeName: String = "Empty"
+    private static var themeColor: [Double] = [0, 0, 0, 0]
+    static var emojis: [MemoryGame<String>.Theme] = [
+        MemoryGame.Theme(id: 0, themeName: "faces", themeColor: [1,0,0,1], themeContent: ["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"]),
+        MemoryGame.Theme(id: 1, themeName: "cars", themeColor: [0,1,0,1], themeContent: ["🚗", "🚕", "🚙", "🚌", "🚎", "🏎", "🚓", "🚑", "🚒", "🚐", "🛻"]),
+        MemoryGame.Theme(id: 2, themeName: "animals", themeColor: [0,0,1,1], themeContent: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨"]),
+        MemoryGame.Theme(id: 3, themeName: "fruit", themeColor: [1,0,1,1], themeContent: ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐"]),
+        MemoryGame.Theme(id: 4, themeName: "vegetables", themeColor: [1,1,0,1], themeContent: ["🥦", "🥕", "🥬", "🥒", "🫑", "🧄"]),
+        MemoryGame.Theme(id: 5, themeName: "sports", themeColor: [0,1,1,1], themeContent: ["⚽️", "🏀", "🏈", "⚾️", "🥎", "🎾", "🏐", "🏉", "🥏"])
     ]
 
     static func createMemoryGame() -> MemoryGame<String>{
-        if let array = EmojiMemoryGame.themes.allCases.randomElement() {
-            var emojis = emojiMap[array]!
-            switch array{
-                case EmojiMemoryGame.themes.faces:
-                    themeName = "Faces"
-                    break
-            case EmojiMemoryGame.themes.cars:
-                themeName = "Cars"
-                break
-
-            case EmojiMemoryGame.themes.animals:
-                themeName = "Animals"
-                break
-            case EmojiMemoryGame.themes.fruit:
-                themeName = "Fruit"
-                break
-            }
-            emojis.shuffle()
+        var array = emojis.randomElement()!
+            array.themeContent.shuffle()
+            themeName = array.themeName
+            themeColor = array.themeColor
             return MemoryGame<String>(numberOfPairsOfCards: Int.random(in: emojis.count / 2..<emojis.count), createCardContent: { index in
-                emojis[index]
+                array.themeContent[index]
             })
-        } else {
-            var emojis = ["🥶", "😈", "👺", "💩", "👾", "🤥", "😮‍💨", "🤮", "🤯", "😱", "😨", "🤩","🥳", "😏"]
-            emojis.shuffle()
-            return MemoryGame<String>(numberOfPairsOfCards: Int.random(in: emojis.count / 4..<emojis.count / 2), createCardContent: { index in
-                emojis[index]
-            })
-        }
+
     }
 
     @Published private var model: MemoryGame<String> = createMemoryGame()
@@ -69,7 +42,11 @@ class EmojiMemoryGame: ObservableObject{
     }
 
     func getThemeName() -> String{
-        return EmojiMemoryGame.themeName
+        EmojiMemoryGame.themeName
+    }
+
+    func getThemeColor() -> [Double]{
+        EmojiMemoryGame.themeColor
     }
 
     func getScore() -> Int{
