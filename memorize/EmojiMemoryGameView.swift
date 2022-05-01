@@ -24,15 +24,17 @@ struct EmojiMemoryGameView: View {
                 Spacer()
             }
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                    ForEach(viewModel.cards) { card in
-                        CardView(card: card)
-                                .aspectRatio(2 / 3, contentMode: .fit)
-                                .onTapGesture{
-                                    viewModel.choose(card)
-                                }
+                GeometryReader(content: {geometry in
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: (geometry.size.width / CGFloat(viewModel.cards.count) * 1.9)))]) {
+                        ForEach(viewModel.cards) { card in
+                            CardView(card: card)
+                                    .aspectRatio(2 / 3, contentMode: .fit)
+                                    .onTapGesture{
+                                        viewModel.choose(card)
+                                    }
+                        }
                     }
-                }
+                })
             }
                     .foregroundColor(Color(UIColor(displayP3Red: viewModel.getThemeColor()[0], green: viewModel.getThemeColor()[1], blue: viewModel.getThemeColor()[2], alpha: viewModel.getThemeColor()[3])))
         }
@@ -45,19 +47,21 @@ struct CardView: View {
     let card: MemoryGame<String>.Card
 
     var body: some View {
-        ZStack {
-            let shape = RoundedRectangle(cornerRadius: 20)
-            if card.isFaceUp {
-                shape.fill().foregroundColor(.white)
-                shape.strokeBorder(lineWidth: 3)
-                Text(card.content).font(.largeTitle)
-            } else if card.isMatched{
+        GeometryReader(content: {geometry in
+            ZStack {
+                let shape = RoundedRectangle(cornerRadius: 20)
+                if card.isFaceUp {
+                    shape.fill().foregroundColor(.white)
+                    shape.strokeBorder(lineWidth: 3)
+                    Text(card.content).font(Font.system(size: min(geometry.size.height, geometry.size.width)*0.85))
+                } else if card.isMatched{
                     shape.opacity(0)
-            }
-            else {
+                }
+                else {
                     shape.fill()
+                }
             }
-        }
+        })
     }
 };
 
