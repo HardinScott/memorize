@@ -71,16 +71,16 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
     }
 
     struct Card: Identifiable{
-        var id: Int
+        let id: Int
         var isFaceUp: Bool = false
         var isMatched: Bool = false
         var content: CardContent
     }
 
     struct Theme: Identifiable {
-        var id: Int
-        var themeName: String
-        var themeColor: [Double]
+        let id: Int
+        let themeName: String
+        let themeColor: [Double]
         var themeContent: [CardContent]
     }
 }
