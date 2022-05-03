@@ -28,7 +28,7 @@ struct EmojiMemoryGameView: View {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: (geometry.size.width / CGFloat(viewModel.cards.count) * 1.9)))]) {
                         ForEach(viewModel.cards) { card in
                             CardView(card: card)
-                                    .aspectRatio(2 / 3, contentMode: .fit)
+                                    .aspectRatio(2 / 3, contentMode: .fill)
                                     .onTapGesture{
                                         viewModel.choose(card)
                                     }
